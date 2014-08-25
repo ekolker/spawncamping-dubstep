@@ -28,15 +28,30 @@ screen.prototype.party = function () {
   var self = this;
   self.modern();
   self.render();
-  setImmediate(function() {
-    self.neo.once('end', function() {
-      self.party();
-    });
+  self.neo.once('end', function() {
+    self.party();
   });
 }
 
 screen.prototype.setPixel = function (x, y, options, cb) {
-
+  /*
+  options
+    r - 0-255
+    g - 0-255
+    b - 0-255
+    a - 0-1.0
+  */
+  options.a = options.a || 1;
+  this.frame[3 * (x + this.y * y)] =
+    this.frame[3 * (x + this.y * y)] * (1 - options.a) +
+    options.a * options.g;
+  this.frame[3 * (x + this.y * y) + 1] =
+    this.frame[3 * (x + this.y * y) + 1] * (1 - options.a) +
+    options.a * options.r;
+  this.frame[3 * (x + this.y * y) + 2] =
+    this.frame[3 * (x + this.y * y) + 2] * (1 - options.a) +
+    options.a * options.b;
+  cb && cb();
 }
 
 exports.screen = screen;
