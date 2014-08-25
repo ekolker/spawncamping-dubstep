@@ -1,19 +1,32 @@
-var Neopixels = require('neopixels');
+function screen (neopixels, xDim, yDim) {
 
-// Make an instance of the strip
-var neopixels = new Neopixels();
+  this.x = xDim || 8;
+  this.y = yDim || 8;
+  this.frame = new Buffer(xDim * yDim * 3);
+  this.frame.fill(0);
 
-// // When an animation completes
-// neopixels.on('end', function() {
-//   // Start the animation again
-//   neopixels.animate(100, );
-// });
-
-var frame = new Buffer(64*3);
-frame.fill(0);
-
-for (var i = 0; i < frame.length; i++) {
-  frame[i] = Math.random() * 30;
+  this.neo = neopixels;
+  return this;
 }
 
-neopixels.animate(64, frame);
+function init(neopixels, xDim, yDim) {
+  return new screen (neopixels, xDim, yDim);
+}
+
+screen.prototype.render = function () {
+  this.neo.animate(this.frame.length / 3, this.frame);
+}
+
+screen.prototype.modern = function (intensity) {
+  intensity = intensity || 30;
+  for (var i = 0; i < this.frame.length; i++) {
+    this.frame[i] = Math.random() * intensity;
+  }
+}
+
+screen.prototype.setPixel = function (x, y, options, cb) {
+
+}
+
+exports.screen = screen;
+exports.init = init;
