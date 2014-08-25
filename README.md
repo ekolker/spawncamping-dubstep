@@ -1,4 +1,6 @@
 spawncamping-dubstep
 ====================
 
-I love GitHub's naming suggestions!
+An API or something for Tessel and Neopixels.
+
+Related: I love GitHub's naming suggestions!
