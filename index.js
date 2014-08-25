@@ -64,7 +64,7 @@ screen.prototype.hLine = function (options) {
   b
   o
   */
-  for (var i = options.x; i != options.x + options.l && i < this.x && i > 0; i += sign(options.l)) {
+  for (var i = options.x; i != options.x + options.l && i < this.x + 0.5 && i > -0.5; i += sign(options.l)) {
     this.setPixel(i, options.y, options);
   }
 };
@@ -79,13 +79,13 @@ screen.prototype.vLine = function (options) {
   b
   o
   */
-  for (var i = options.y; i != options.y + options.l && i < this.y && i > 0; i += sign(options.l)) {
+  for (var i = options.y; i != options.y + options.l && i < this.y + 0.5 && i > -0.5; i += sign(options.l)) {
     this.setPixel(options.x, i, options);
   }
 };
 
 screen.prototype.fade = function (options) {
-  options.percent = options.percent || 0.1;
+  options.percent = options.percent || 0.05;
   for (var i = 0; i < this.frame.length; i++) {
     this.frame[i] = this.frame[i] * (1.0-options.percent);
   }

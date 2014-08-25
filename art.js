@@ -20,12 +20,12 @@ setInterval(function () {
     x:Math.random()*8,
     y:Math.random()*8,
     l:Math.random()*8 * sign(Math.random() - 0.5),
-    r:Math.random()*50,
-    g:Math.random()*50,
-    b:Math.random()*50,
+    r:Math.random()*20,
+    g:Math.random()*20,
+    b:Math.random()*20,
     o:Math.random()
   };
-  s.fade({percent:0.05});  
+  s.fade({percent:0.01});
   if (turn) {
     s.hLine(op);
   } else {
