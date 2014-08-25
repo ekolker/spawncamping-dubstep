@@ -39,19 +39,35 @@ screen.prototype.setPixel = function (x, y, options, cb) {
     r - 0-255
     g - 0-255
     b - 0-255
-    a - 0-1.0
+    o - 0-1.0
   */
-  options.a = options.a || 1;
+  options.o = options.o || 1;
   this.frame[3 * (x + this.y * y)] =
-    this.frame[3 * (x + this.y * y)] * (1 - options.a) +
-    options.a * options.g;
+    this.frame[3 * (x + this.y * y)] * (1 - options.o) +
+    options.o * options.g;
   this.frame[3 * (x + this.y * y) + 1] =
-    this.frame[3 * (x + this.y * y) + 1] * (1 - options.a) +
-    options.a * options.r;
+    this.frame[3 * (x + this.y * y) + 1] * (1 - options.o) +
+    options.o * options.r;
   this.frame[3 * (x + this.y * y) + 2] =
-    this.frame[3 * (x + this.y * y) + 2] * (1 - options.a) +
-    options.a * options.b;
+    this.frame[3 * (x + this.y * y) + 2] * (1 - options.o) +
+    options.o * options.b;
   cb && cb();
+}
+
+screen.prototype.drawLine = function (options) {
+  /*
+  options
+    r  - 0-255
+    g  - 0-255
+    b  - 0-255
+    o  - 0-1.0
+    x1 - 0-this.x
+    y1 - 0-this.x
+    x2 - 0-this.y
+    y2 - 0-this.y
+  */
+  options.o = options.o || 1;
+  
 }
 
 exports.screen = screen;
