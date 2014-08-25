@@ -24,6 +24,17 @@ screen.prototype.modern = function (intensity) {
   }
 }
 
+screen.prototype.party = function () {
+  var self = this;
+  self.modern();
+  self.render();
+  setImmediate(function() {
+    self.neo.once('end', function() {
+      self.party();
+    });
+  });
+}
+
 screen.prototype.setPixel = function (x, y, options, cb) {
 
 }

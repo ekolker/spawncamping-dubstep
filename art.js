@@ -5,5 +5,5 @@ var art = require('./index.js')
 var neopixels = new Neopixels();
 
 var s = art.init(neopixels, 8, 8);
-s.modern();
-s.render();
+
+s.party();
