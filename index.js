@@ -7,22 +7,22 @@ function screen (neopixels, xDim, yDim) {
 
   this.neo = neopixels;
   return this;
-}
+};
 
 function init(neopixels, xDim, yDim) {
   return new screen (neopixels, xDim, yDim);
-}
+};
 
 screen.prototype.render = function () {
   this.neo.animate(this.frame.length / 3, this.frame);
-}
+};
 
 screen.prototype.modern = function (intensity) {
   intensity = intensity || 30;
   for (var i = 0; i < this.frame.length; i++) {
     this.frame[i] = Math.random() * intensity;
   }
-}
+};
 
 screen.prototype.party = function () {
   var self = this;
@@ -31,7 +31,7 @@ screen.prototype.party = function () {
   self.neo.once('end', function() {
     self.party();
   });
-}
+};
 
 screen.prototype.setPixel = function (x, y, options, cb) {
   /*
@@ -52,23 +52,52 @@ screen.prototype.setPixel = function (x, y, options, cb) {
     this.frame[3 * (x + this.y * y) + 2] * (1 - options.o) +
     options.o * options.b;
   cb && cb();
-}
+};
 
-screen.prototype.drawLine = function (options) {
+screen.prototype.hLine = function (options) {
   /*
-  options
-    r  - 0-255
-    g  - 0-255
-    b  - 0-255
-    o  - 0-1.0
-    x1 - 0-this.x
-    y1 - 0-this.x
-    x2 - 0-this.y
-    y2 - 0-this.y
+  x
+  y
+  l
+  r
+  g
+  b
+  o
   */
-  options.o = options.o || 1;
-  
-}
+  for (var i = options.x; i != options.x + options.l; i += sign(options.l)) {
+    this.setPixel(i, options.y, options);
+  }
+};
+
+// screen.prototype.drawLine = function (options) {
+//   /*
+//   options
+//     r  - 0-255
+//     g  - 0-255
+//     b  - 0-255
+//     o  - 0-1.0
+//     x1 - 0-this.x
+//     y1 - 0-this.x
+//     x2 - 0-this.y
+//     y2 - 0-this.y
+//   */
+//   options.o = options.o || 1;
+//   var theta = Math.atan((y2 - y1) / (x2 - x1));
+//   for (var dx = 0; dx < x2 - x1; dx += sign(x2 - x1)) {
+//
+//   }
+//
+// }
+
+function sign (x) {
+  if (isNaN(x)) {
+    return NaN;
+  } else if (x === 0) {
+    return x;
+  } else {
+    return (x > 0 ? 1 : -1);
+  }
+};
 
 exports.screen = screen;
 exports.init = init;
