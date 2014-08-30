@@ -17,15 +17,15 @@ var turn = false;
 
 setInterval(function () {
   var op = {
-    x:Math.random()*8,
-    y:Math.random()*8,
-    l:Math.random()*8 * sign(Math.random() - 0.5),
-    r:Math.random()*20,
-    g:Math.random()*20,
-    b:Math.random()*20,
+    x:Math.floor(Math.random() * 8),
+    y:Math.floor(Math.random() * 8),
+    l:Math.floor(2 + Math.random() * 6) * sign(Math.random() - 0.5),
+    r:Math.random() * 40 + 3,
+    g:Math.random() * 40 + 3,
+    b:Math.random() * 40 + 3,
     o:Math.random()
   };
-  s.fade({percent:0.01});
+  s.fade({percent:0.02});
   if (turn) {
     s.hLine(op);
   } else {
