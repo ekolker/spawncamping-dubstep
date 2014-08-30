@@ -35,6 +35,18 @@ setInterval(function () {
   s.render();
 }, 200);
 
+// setInterval( function () {
+//   var op = {
+//     x:Math.floor(Math.random() * 8),
+//     y:Math.floor(Math.random() * 8),
+//     l:Math.floor(2 + Math.random() * 6) * sign(Math.random() - 0.5),
+//     r:Math.random() * 40 + 3,
+//     g:Math.random() * 40 + 3,
+//     b:Math.random() * 40 + 3,
+//     o:Math.random()
+//   };
+// }, 500);
+
 function sign (x) {
   if (isNaN(x)) {
     return NaN;

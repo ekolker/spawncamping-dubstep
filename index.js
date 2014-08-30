@@ -41,17 +41,22 @@ screen.prototype.setPixel = function (x, y, options, cb) {
     b - 0-255
     o - 0-1.0
   */
-  options.o = options.o || 1;
-  this.frame[3 * (x + this.y * y)] =
-    this.frame[3 * (x + this.y * y)] * (1 - options.o) +
-    options.o * options.g;
-  this.frame[3 * (x + this.y * y) + 1] =
-    this.frame[3 * (x + this.y * y) + 1] * (1 - options.o) +
-    options.o * options.r;
-  this.frame[3 * (x + this.y * y) + 2] =
-    this.frame[3 * (x + this.y * y) + 2] * (1 - options.o) +
-    options.o * options.b;
-  cb && cb();
+  var err = null;
+  if (x >= 0 && x <= this.x-1 && y >=0 && y <= this.y-1) {
+    options.o = options.o || 1;
+    this.frame[3 * (x + this.y * y)] =
+      this.frame[3 * (x + this.y * y)] * (1 - options.o) +
+      options.o * options.g;
+    this.frame[3 * (x + this.y * y) + 1] =
+      this.frame[3 * (x + this.y * y) + 1] * (1 - options.o) +
+      options.o * options.r;
+    this.frame[3 * (x + this.y * y) + 2] =
+      this.frame[3 * (x + this.y * y) + 2] * (1 - options.o) +
+      options.o * options.b;
+  } else {
+    err = new Error('invalid coordiantes');
+  }
+  cb && cb(err);
 };
 
 screen.prototype.hLine = function (options) {
@@ -101,25 +106,43 @@ screen.prototype.fade = function (options) {
   }
 }
 
-// screen.prototype.drawLine = function (options) {
-//   /*
-//   options
-//     r  - 0-255
-//     g  - 0-255
-//     b  - 0-255
-//     o  - 0-1.0
-//     x1 - 0-this.x
-//     y1 - 0-this.x
-//     x2 - 0-this.y
-//     y2 - 0-this.y
-//   */
-//   options.o = options.o || 1;
-//   var theta = Math.atan((y2 - y1) / (x2 - x1));
-//   for (var dx = 0; dx < x2 - x1; dx += sign(x2 - x1)) {
-//
-//   }
-//
-// }
+screen.prototype.line = function (options) {
+  /*
+  options
+    r  - 0-255
+    g  - 0-255
+    b  - 0-255
+    o  - 0-1.0
+    x1 - 0-this.x
+    y1 - 0-this.x
+    x2 - 0-this.y
+    y2 - 0-this.y
+  */
+  var x1 = options.x1;
+  var x2 = options.x2;
+  var y1 = options.y1;
+  var y2 = options.y2;
+  if (options.x1 > options.x2) {
+    x1 = options.x2;
+    x2 = options.x1;
+    y1 = options.y2;
+    y2 = options.y1;
+  }
+  var slope = (y2 - y1) / (x2 - x1);
+  var theta = Math.atan(slope);
+
+  var x0 = Math.floor(x1);
+  var y0 = Math.floor(y1);
+  var xf = Math.ciel(x2);
+  var yf = Math.ciel(y2);
+
+  for (var x = x0; x < xf; x++) {
+    for (var y = y0; y < yf; y++) {
+      this.setPixel(x, y, options);
+    }
+  }
+
+}
 
 function sign (x) {
   if (isNaN(x)) {
